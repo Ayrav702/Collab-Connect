@@ -1,0 +1,184 @@
+body {
+    background: #fafafa;
+    color: #333333;
+    margin-top: 5rem;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    color: #444444;
+  }
+  
+  .bg-steel {
+    background-color: #09151e;
+  }
+  
+  .site-header .navbar-nav .nav-link {
+    color: #cbd5db;
+  }
+  
+  .site-header .navbar-nav .nav-link:hover {
+    color: #ffffff;
+  }
+  
+  .site-header .navbar-nav .nav-link.active {
+    font-weight: 500;
+  }
+  
+  .content-section {
+    background: #ffffff;
+    padding: 10px 20px;
+    border: 1px solid #dddddd;
+    border-radius: 3px;
+    margin-bottom: 20px;
+   
+   
+  }
+  
+  .article-title {
+    color: #444444;
+  }
+  
+  a.article-title:hover {
+    color: #428bca;
+    text-decoration: none;
+  }
+  
+  .article-content {
+    white-space: pre-line;
+    height: auto;
+  }
+  
+  .article-img {
+    height: 65px;
+    width: 65px;
+    margin-right: 16px;
+  }
+  .comment-img{
+    height: 30px;
+    width: 30px;
+    margin-right: 10px;
+  }
+  
+  .article-metadata {
+    padding-bottom: 1px;
+    margin-bottom: 4px;
+    border-bottom: 1px solid #e3e3e3
+  }
+  
+  .article-metadata a:hover {
+    color: #333;
+    text-decoration: none;
+  }
+  
+  .article-svg {
+    width: 25px;
+    height: 25px;
+    vertical-align: middle;
+  }
+  
+  .account-img {
+    height: 125px;
+    width: 125px;
+    margin-right: 20px;
+    margin-bottom: 16px;
+  }
+  
+  .account-heading {
+    font-size: 2.5rem;
+  }
+
+  .divider{
+    margin-bottom: 10px;
+  }
+
+.del-bdr{
+  border-radius: 100px;
+  
+}
+
+.fri-img{
+  border-style: none;
+}
+.cmtt{
+  margin-bottom: 50px;
+}
+.fa-thumbs-up{
+
+  margin-top:20px;
+}
+
+
+
+/* Add this CSS to make the search form longer */
+.long-search-form {
+  width: 80%; /* Adjust the width as needed */
+  margin: 20px auto; /* Center the form on the page */
+}
+
+/* Optional: You can add more styling for the input field if needed */
+#interest-search {
+  width: 100%; /* Make the input field fill the entire width of the form */
+  padding: 10px; /* Add padding for better aesthetics */
+  box-sizing: border-box; /* Include padding and border in the element's total width and height */
+  border: 1px solid #ccc; /* Add a border for a cleaner look */
+  border-radius: 5px; /* Optional: Add border-radius for rounded corners */
+}
+
+.password-conditions-list {
+  list-style-type: none;
+  padding: 0;
+}
+
+.password-conditions-list li {
+  margin-bottom: 5px;
+  color: red; /* Default color for conditions */
+}
+
+.password-conditions-list li.green-text {
+  color: green; /* Color for conditions that are met */
+}
+
+.flex-container {
+  display: flex;
+  align-items: center;
+}
+
+.edit-textarea {
+  flex: 1;
+  margin-right: 10px; /* Adjust the margin as needed */
+}
+
+.save-button {
+  margin-left: 10px; /* Adjust the margin as needed */
+}
+.blue-button {
+  background-color: rgb(55, 184, 227);
+  color: white;
+}
+
+.red-button {
+  background-color: red;
+  color: white;
+}
+/* Add this CSS style to your stylesheet or in a style tag in your HTML */
+/* Add this CSS style to your stylesheet or in a style tag in your HTML */
+/* Add this CSS style to your stylesheet or in a style tag in your HTML */
+/* Add this CSS style to your stylesheet or in a style tag in your HTML */
+/* Add this CSS style to your stylesheet or in a style tag in your HTML */
+/* Add this CSS style to your stylesheet or in a style tag in your HTML */
+.like-button {
+  transition: transform 0.5s ease-in-out;
+}
+
+.bounce-on-click {
+  animation: bounceAnimation 0.5s ease-in-out;
+}
+
+@keyframes bounceAnimation {
+  0%, 20%, 50%, 80%, 100% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(-10px); /* Decrease the height to -10px */
+  }
+}

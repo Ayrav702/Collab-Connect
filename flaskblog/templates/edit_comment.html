@@ -1,0 +1,25 @@
+{% extends "layout.html" %}
+{% block content %}
+<form method="POST" action="">
+    {{ form.csrf_token }}
+    <fieldset class="form-group">
+        <div class="form-group">
+            {{ form.new_comment.label(class="form-control-label") }}
+            {% if form.new_comment.errors %}
+                {{ form.new_comment(class="form-control form-control-lg is-invalid") }}
+                <div class="invalid-feedback">
+                    {% for error in form.new_comment.errors %}
+                        <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
+            {% else %}
+                {{ form.new_comment(class="form-control form-control-lg") }}
+            {% endif %}
+
+        </div>
+        <div class="form-group">
+            {{ form.submit(class="btn btn-outline-info") }}
+        </div>
+    </fieldset>
+</form>
+{% endblock content %}

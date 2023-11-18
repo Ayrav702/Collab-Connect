@@ -1,0 +1,287 @@
+<!doctype html>
+<html lang="en">
+  <head>
+  
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="http://127.0.0.1:8081/index.css">
+
+    <title>Topic Of Interest</title>
+  </head>
+  
+
+  <body>
+    <style>
+
+.navbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background-color: black;
+        height: 80px;
+        color: white;
+        margin-bottom: 20px;
+        width: 100%;
+        position: sticky;
+        top: 0;
+        z-index: 100;
+      }
+
+      .navbar-title {
+        margin: 0;
+        padding: 15px;
+      }
+
+      .common-container {
+        width: 100%;
+        max-width: 1050px;
+        margin: 0 auto;
+        padding: 20px;
+      }
+
+      .navbar-title{
+  margin-right: 300px;
+}
+    .selected-card {
+    border: 2px solid lightblue;
+    border-radius: 10px; 
+    box-shadow: 0 0 10px lightblue, 0 0 20px lightblue, 0 0 30px lightblue; 
+    animation: glowing 1s infinite; 
+  }
+  
+  @keyframes glowing {
+    0% {
+      box-shadow: 0 0 10px lightblue, 0 0 20px lightblue, 0 0 30px lightblue;
+    }
+    50% {
+      box-shadow: 0 0 20px lightblue, 0 0 30px lightblue, 0 0 40px lightblue; 
+    }
+    100% {
+      box-shadow: 0 0 10px lightblue, 0 0 20px lightblue, 0 0 30px lightblue;
+    }
+  }
+     /* Styling for the "Submit" button */
+     .submit-button {
+            background-color: #007bff; /* Button background color */
+            color: #fff; /* Button text color */
+            border: none; /* Remove button border */
+            padding: 10px 20px; /* Padding for the button */
+            font-size: 16px; /* Font size for the button text */
+            border-radius: 5px; /* Rounded corners */
+            cursor: pointer; /* Cursor style on hover */
+            margin-top: 20px; /* Margin above the button */
+            margin-bottom: 20px;
+        }
+
+        /* Container for the "Submit" button */
+        .button-container {
+            text-align: center; /* Center-align the button */
+        }
+    </style>
+   
+   
+
+   <script>
+    var selectedCards = [];
+
+    function toggleCardSelection(card) {
+        var titleElement = card.querySelector('.card-title');
+        var cardTitle = titleElement.textContent;
+
+        // If the card is not selected, add it to the selectedCards array
+        if (!selectedCards.includes(cardTitle)) {
+            if (selectedCards.length < 2) {
+                selectedCards.push(cardTitle);
+                card.classList.add('selected-card'); // Apply the selected-card class
+            } else {
+                alert("You can only select up to 2 cards.");
+            }
+        } else { // If the card is already selected, deselect it
+            var index = selectedCards.indexOf(cardTitle);
+            selectedCards.splice(index, 1);
+            card.classList.remove('selected-card'); // Remove the selected-card class
+        }
+    }
+
+    function submitSelectedCards() {
+        if (selectedCards.length === 2) {
+            // Display the selected card titles in a readable format
+            var selectedTitlesText = 'Selected Card Titles: ' + selectedCards.join(', ');
+            document.getElementById('selectedTitles').textContent = selectedTitlesText;
+        } else {
+            alert("Please select 2 cards before submitting.");
+        }
+    }
+</script>
+<script src="https://kit.fontawesome.com/930accc7ed.js" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    
+
+   <div class="common-container">
+    
+    <nav class="navbar">
+
+    
+      <h1 class="navbar-title" style="padding-left: 300px;">TOPIC OF INTEREST</h1>
+  </nav>
+
+
+ 
+    <div class="container">
+        <div class="row ">
+          <div class="col-lg-4 d-flex align-items-stretch ">
+            <div class="card" style="width: 18rem;" onclick="toggleCardSelection(this)">
+                <img class="card-img-top" src="http://127.0.0.1:8081/ai.jpg " alt="Card image cap">
+                <div class="card-body">
+                  <h5 class="card-title">Artificial intelligence and machine learning</h5>
+                  <p class="card-text">AI and ML are changing the way people interact with technology. They’re driving automation, creating intelligent systems, and enabling new applications in fields such as healthcare, finance and transportation.</p>
+     
+                </div>
+              </div>
+          </div>
+          <div class="col-lg-4 d-flex align-items-stretch">
+            <div class="card" style="width: 18rem;" onclick="toggleCardSelection(this)">
+                <img class="card-img-top" src="http://127.0.0.1:8081/blockchain.jpg " alt="Card image cap">
+                <div class="card-body">
+                  <h5 class="card-title">Blockchain technology</h5>
+                  <p class="card-text">Blockchain technology is an advanced database mechanism that allows transparent information sharing within a business network. A blockchain database stores data in blocks that are linked together in a chain.</p>
+     
+                </div>
+              </div>
+          </div>
+          <div class="col-lg-4 d-flex align-items-stretch">
+            <div class="card" style="width: 18rem;" onclick="toggleCardSelection(this)">  
+                <img class="card-img-top" src="http://127.0.0.1:8081/qc.jpg" alt="Card image cap">
+                <div class="card-body">
+                  <h5 class="card-title">Quantum computing</h5>
+                  <p class="card-text">A quantum computer is a computer that exploits quantum mechanical phenomena. At small scales, physical matter exhibits properties of both particles and waves, and quantum computing leverages this behavior using specialized hardware. </p>
+           
+              </div>
+          </div>
+        </div>
+      </div>
+   
+      <div class="ex1"></div>
+        <div class="container mt-5"></div>
+        <div class="row">
+          <div class="col-lg-4 d-flex align-items-stretch ">
+            <div class="card" style="width: 18rem;" onclick="toggleCardSelection(this)">
+                <img class="card-img-top" src="http://127.0.0.1:8081/iot.jpg" alt="Card image cap">
+                <div class="card-body">
+                  <h5 class="card-title">Internet of Things</h5>
+                  <p class="card-text">IoT refers to the process of connecting physical objects to the internet so they can communicate and collect data. It has applications in fields such as manufacturing and healthcare and can be found in smart homes and wearable technology.</p>
+                
+                </div>
+              </div>
+          </div>
+          <div class="col-lg-4 d-flex align-items-stretch">
+            <div class="card" style="width: 18rem;" onclick="toggleCardSelection(this)">
+                <img class="card-img-top" src="http://127.0.0.1:8081/ar%20vr.jpg" alt="Card image cap">
+                <div class="card-body">
+                  <h5 class="card-title">Augmented reality (AR) and virtual reality (VR)</h5>
+                  <p class="card-text">Augmented reality and virtual reality have the potential to enhance the user experience in various fields, including gaming, education, training and entertainment.</p>
+       
+                </div>
+              </div>
+          </div>
+          <div class="col-lg-4 d-flex align-items-stretch">
+            <div class="card" style="width: 18rem;"onclick="toggleCardSelection(this)">
+                <img class="card-img-top" src="http://127.0.0.1:8081/robocop.jpg" alt="Card image cap">
+                <div class="card-body">
+                  <h5 class="card-title">Robotics</h5>
+                  <p class="card-text">Robotics involves the design, construction and operation of robots that can perform tasks autonomously or with human guidance. Although robotics has been employed in manufacturing and logistics, it has potential uses in industries, including healthcare, agriculture and exploration.</p>
+   
+              </div>
+          </div>
+        </div>
+        <div class="ex1"></div>
+        <div class="container mt-5"></div>
+        <div class="col-lg-4 d-flex align-items-stretch">
+          <div class="card" style="width: 18rem;" onclick="toggleCardSelection(this)">
+              <img class="card-img-top" src="http://127.0.0.1:8081/new%20cloud.jpg" alt="Card image cap">
+              <div class="card-body">
+                <h5 class="card-title">Cloud Computing</h5>
+                <p class="card-text">Unlock unparalleled business agility and efficiency with our cutting-edge cloud computing solutions. Seamlessly harness the power of scalable resources, ensuring rapid innovation and optimal performance for your marketing endeavors.</p>
+ 
+            </div>
+        </div>
+      </div>
+      <div class="col-lg-4 d-flex align-items-stretch">
+        <div class="card" style="width: 18rem;" onclick="toggleCardSelection(this)">
+            <img class="card-img-top" src="http://127.0.0.1:8081/new%20music.jpg" alt="Card image cap">
+            <div class="card-body">
+              <h5 class="card-title">Music</h5>
+              <p class="card-text">Experience the magic of melodies with our premium music collection. From upbeat rhythms to soulful symphonies, our diverse library caters to every marketing campaign's audio needs. </p>
+
+          </div>
+      </div>
+    </div>
+    <div class="col-lg-4 d-flex align-items-stretch">
+      <div class="card" style="width: 18rem;" onclick="toggleCardSelection(this)">
+          <img class="card-img-top" src="http://127.0.0.1:8081/cyber%20security.jpg" alt="Card image cap">
+          <div class="card-body">
+            <h5 class="card-title">Cyber Security</h5>
+            <p class="card-text">Elevate your software development with our robust cybersecurity protocols. Our cutting-edge solutions seamlessly integrate, ensuring your code, applications, and user data are shielded from vulnerabilities.</p>
+
+        </div>
+    </div>
+  </div>
+      </div>
+    </div>
+
+
+ 
+    <script>
+
+      function submitSelectedCards() {
+        if (selectedCards.length === 2) {
+          // Send the selectedCards list to the server
+          fetch('/submit-selected-cards', {
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({selectedCards} ),
+})
+.then(response => {
+    if (!response.ok) {
+        throw new Error('Network response was not ok');
+    }
+    console.log("done!")
+    return response.json(); // Parse the JSON response
+})
+.then(data => {
+    // Handle the data
+    console.log(data);
+})
+.catch(error => {
+    console.error('Error:', error);
+});
+        } else {
+          alert("Please select 2 cards before submitting.");
+        }
+      }
+      console.log(selectedCards);
+function main(){
+        submitSelectedCards();
+        redirectToHome()
+        
+
+      }
+      function redirectToHome() {
+    // Redirect to the desired page (home.html)
+    window.location.href = "home";
+  }
+    </script>
+    <div class="button-container">
+      <!-- "Submit" button -->
+      <button class="submit-button" onclick="main()">Submit</button>
+
+      <!-- Your JavaScript code -->
+  </div>
+
+</body>
+</html>

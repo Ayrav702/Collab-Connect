@@ -1,0 +1,300 @@
+{% extends "layout.html" %}
+{% block content %}
+<div style="margin-top: 20px;"></div>
+<!-- Add this input field at the top of your template, for example, within a form -->
+<form id="interest-search-form">
+  <input type="text" id="interest-search" placeholder="Search by interests ' \'"  style="background-color: rgb(217, 249, 232)">
+</form>
+<div style="margin-top: 20px;"></div>
+<div id="not-found-message" style="display: none; color: red;">Oops! Not Found...</div>
+{% for post in posts %}
+    
+
+<div style="margin-top: 20px;"></div>
+<article class="media content-section">
+  <img class="rounded-circle article-img" src="{{ url_for('static', filename='profile_pics/' + post.author.image_file) }}">
+  <div class="media-body">
+    <div class="article-metadata">
+      <a class="mr-2" href="#">{{ post.author.username }}</a>
+      <small class="text-muted">{{ post.date_posted.strftime('%Y-%m-%d') }}</small>
+      {% if current_user != post.author %}
+      {% if current_user not in post.author.friends.all() %}
+          <form action="{{ url_for('add_friend_', user_id=post.author.id) }}" method="post" style="display: inline;">
+              <button class="frnd" type="submit">
+                  <img src="http://127.0.0.1:8080/friend%20jpg.png" alt="buttonpng" height="30px" />
+              </button>
+          </form>
+      {% endif %}
+  {% endif %}
+  
+    </div>
+    <h2><a class="article-title" href="{{ url_for('post', post_id=post.id) }}">{{ post.title }}</a></h2>
+    <p class="article-content">{{ post.content }}</p>
+  
+    {% if post.author.categories %}
+      <ul>
+        {% for i in post.author.categories %}
+          <li>{{ i.name }}</li>
+        {% endfor %}
+      </ul>
+
+    {% endif %}
+
+    <div style="margin-top: 20px;"></div>
+    <div>
+      {% if post.file_path %}
+          {% if post.file_path.lower().endswith(('.jpg', '.png', '.jpeg', '.gif')) %}
+              <img src="{{ url_for('static', filename='media/' + post.file_path) }}" height="200px" width="200px" alt="{{ post.title }}">
+          {% elif post.file_path.lower().endswith(('.mp4', '.mov')) %}
+          <video controls height="300px" width="300pxs">
+            <source src="{{ url_for('static', filename='media/' + post.file_path) }}" type="{{ video_mime_type }}">
+            Your browser does not support the video tag.
+        </video>
+        
+          {% elif post.file_path.lower().endswith(('.pdf')) %}
+              <!-- Display the PDF content -->
+              <embed src="{{ url_for('static', filename='media/' + post.file_path) }}" width="500px" height="300px" type="application/pdf">
+          {% else %}
+              <!-- Handle unsupported file types or show a default -->
+              <p>Unsupported file type</p>
+          {% endif %}
+
+      {% endif %}
+  </div>
+  
+  
+  
+    
+
+
+      
+      <div class="row justify-content-end">
+        <div class="col-auto ml">
+          <div class="like-up"></div>
+        <span id="likes-count-{{post.id}}">
+          {{ post.likes|length }}</span> 
+          {% if user.id in post.likes|map(attribute="user_id")|list %}
+          <i
+          class="fas fa-thumbs-up like-button"
+          id="like-button-{{post.id}}"onclick="like({{post.id}})"
+        ></i>
+        {% else %}
+        <i
+          class="far fa-thumbs-up like-button"
+          id="like-button-{{post.id}}"onclick="like({{post.id}})"
+        ></i>
+          {% endif %}
+      </div>
+    
+      <div class="col-auto ml-2">
+        
+
+<div class="cmtt"
+        {% if post.comments|length >0 %}
+        <a data-toggle="collapse" href="#comments-{{post.id}}" role="button">
+          <button class="cmt" type="submit" >   
+            <i class="fa-solid fa-comments"></i>
+          </button>
+        </a>
+        <sub style="position: absolute; bottom: 0; right: 0; color: red; padding: 2px 5px; border-radius: 50%; font-size: 16px;">{{ post.comments|length }}</sub>
+        {% elif post.comments|length ==0 %}  
+        <a data-toggle="collapse" href="#!comments-{{post.id}}" role="button">
+          <button class="cmt" type="submit" >
+            <i class="fa-solid fa-comments"></i>
+          </button>
+        </a>
+        <sub style="position: absolute; bottom: 0; right: 0; color: red; padding: 2px 5px; border-radius: 50%; font-size: 16px;">{{ post.comments|length }}</sub>
+        {% endif %}
+       
+      </div>
+    </div>
+</div>
+</div>
+</article>
+<div class="comment-container">
+<div class="collapse" id="!comments-{{post.id}}" >
+  <form class="input-group mb-3" method="POST" action="/create-comment/{{post.id}}">
+    <input
+      type="text" 
+      id="text"
+      name="text" 
+      class="form-control"
+      placeholder="Be the first to comment!"
+      />
+      <button type="submit" class="btn btn-primary ">Comment</button>
+  </form>
+</div>
+<div class="collapse" id="comments-{{post.id}}">
+  <form class="input-group mb-3" method="POST" action="/create-comment/{{post.id}}">
+    <input
+      type="text"
+      id="text-1"
+      name="text" 
+      class="form-control"
+      placeholder="Comment Something"
+      />
+      <button type="submit" class="btn btn-primary ">Comment</button>
+  </form>
+ 
+  <div class="card">
+    <div class="card-body divider" id="comments-expanded-{{post.id}}">
+      {% for comment in post.comments %}
+      <div class="d-flex justify-content-between align-items-center">
+        <div class="divider d-flex align-items-center">
+          <a href="/posts/{{ comment.author.image_file }}">
+              <img class="rounded-circle comment-img" width="1px" height="1px" src="{{ url_for('static', filename='profile_pics/' + comment.author.image_file) }}">
+          </a>
+          <p style="margin-top: 12px;" class="comment-content" data-comment-id-i="{{ comment.id }}">{{ comment.text }}</p>
+
+      </div>
+      
+      
+        <div>
+          
+          {% if current_user.id == comment.user_id or current_user.id == post.user_id %}
+          <div class="comment-options dropdown">
+            <button class="btn dropdown-toggle" type="button" id="commentOptionsDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                
+            </button>
+            <div class="dropdown-menu" aria-labelledby="commentOptionsDropdown">
+                <a class="dropdown-item" href="/delete-comment/{{comment.id}}">
+                    Delete
+                </a>
+                <div class="btn dropdown-item edit-button" data-comment-id="{{ comment.id }}">Edit</div>
+            </div>
+        </div>
+           
+              
+          
+
+          {% endif %}
+       
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+</div>
+
+
+  <script>
+document.addEventListener('DOMContentLoaded', function () {
+  const editButtons = document.querySelectorAll('.edit-button');
+
+editButtons.forEach(button => {
+    button.addEventListener('click', function () {
+        const commentContainer = this.closest('.comment-container');
+        const commentId = this.getAttribute('data-comment-id');
+        const commentTextElement = document.querySelector(`[data-comment-id-i="${commentId}"]`);
+
+        const currentCommentText = commentTextElement.textContent;
+
+        const editTextarea = document.createElement('textarea');
+        editTextarea.value = currentCommentText;
+        commentTextElement.replaceWith(editTextarea);
+
+        const saveButton = document.createElement('button');
+        saveButton.textContent = 'Edit';
+        saveButton.classList.add('save-button', 'blue-button'); // Add blue-button class
+        saveButton.style.marginRight = '10px'; // Add right margin
+
+        const cancelButton = document.createElement('button');
+        cancelButton.textContent = 'Cancel';
+        cancelButton.classList.add('cancel-button', 'red-button'); // Add red-button class
+        cancelButton.style.marginLeft = '10px'; // Add left margin
+
+        saveButton.addEventListener('click', function () {
+            const newText = editTextarea.value;
+
+            // Update the comment on the server
+            fetch(`/edit-comment/${commentId}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ text: newText }),
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Failed to update comment on the server');
+                }
+                return response.json();
+            })
+            .then(data => {
+                // Handle the server response if needed
+                console.log(data);
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+
+            // Replace the textarea with the updated text
+            editTextarea.replaceWith(commentTextElement);
+            commentTextElement.textContent = newText;
+            saveButton.remove();
+            cancelButton.remove();
+        });
+
+        cancelButton.addEventListener('click', function () {
+            // Restore the original comment text and remove the textarea and buttons
+            editTextarea.replaceWith(commentTextElement);
+            saveButton.remove();
+            cancelButton.remove();
+        });
+
+        // Insert the "Edit" and "Cancel" buttons after the textarea
+        editTextarea.insertAdjacentElement('afterend', saveButton);
+        saveButton.insertAdjacentElement('afterend', cancelButton);
+    });
+});
+
+
+
+    const interestSearchInput = document.getElementById('interest-search');
+    interestSearchInput.addEventListener('input', function () {
+        const searchValue = this.value.toLowerCase();
+
+        // Get all post elements
+        const postElements = document.querySelectorAll('.media.content-section');
+        let foundMatch = false;
+
+        // Loop through posts and filter based on interests
+        postElements.forEach(postElement => {
+            const postInterests = postElement.querySelectorAll('li');
+            let hasMatch = false;
+
+            postInterests.forEach(interestElement => {
+                const interestText = interestElement.textContent.toLowerCase();
+                if (interestText.includes(searchValue)) {
+                    hasMatch = true;
+                    foundMatch = true;
+                }
+            });
+
+            // Show or hide posts based on the search result
+            postElement.style.display = hasMatch ? 'flex' : 'none';
+        });
+
+        // Display a message when no matches are found
+        const notFoundMessage = document.getElementById('not-found-message');
+        if (foundMatch) {
+            notFoundMessage.style.display = 'none';
+        } else {
+            notFoundMessage.style.display = 'block';
+        }
+    });
+
+  // Add bounce-on-click class to like buttons
+
+});
+</script>
+
+
+        {% endfor %}
+{% endblock content %}
+
+
+
+
+

@@ -1,18 +1,35 @@
 {% extends "layout.html" %}
 {% block content %}
+<style>
+    .btn-remove {
+      display: block;
+      margin: 10px auto 0; /* Center the button */
+      background-color: rgb(158, 43, 5);
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      text-align: center;
+      cursor: pointer;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+    .btn-remove:hover {
+      background-color: rgba(255, 0, 0, 0.873);
+      color: white;
+    }
+  </style>
     <div class="content-section">
       <div class="media">
-        <img id="changePicture" class="rounded-circle account-img" src="{{ image_file }}">
+        <img id="changePicture" class="rounded-circle account-img mt-3" src="{{ image_file }}">
         <div class="media-body">
-          <h2 class="account-heading">{{ current_user.username }}</h2>
-          <p class="text-secondary">{{ current_user.email }}</p>
+          <h2 class="account-heading mt-2 ml-4">{{ current_user.username }}</h2>
+          <p class="text-secondary ml-4">{{ current_user.email }}</p>
     
-          <!-- Button trigger modal -->
-<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModalCenter">
+<button type="button" class="btn btn-remove ml-4" data-toggle="modal" data-target="#exampleModalCenter">
     Delete Account
   </button>
   
-  <!-- Modal -->
+
   <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
@@ -23,18 +40,22 @@
           </button>
         </div>
         <div class="modal-body">
-          ...
+          This Action is irreversible. Are you sure you want to delete your account?
         </div>
         <div class="modal-footer">
+            <form action="{{ url_for('delete_user', user_id=current_user.id) }}" method="POST">
+                <input class="btn btn-danger" type="submit" value="Yes">
+              </form>
           <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
-      <form action="{{ url_for('delete_user', user_id=current_user.id) }}" method="POST">
-            <input class="btn btn-danger" type="submit" value="Yes">
-          </form>
-          <!-- <button type="button" class="btn btn-primary">Yes</button> -->
+
+ 
         </div>
       </div>
     </div>
   </div>
+
+
+
         </div>
       </div>
         <form method="POST" action="" enctype="multipart/form-data">

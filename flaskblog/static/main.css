@@ -26,13 +26,13 @@ body {
   
   .content-section {
     background: #ffffff;
-    padding: 10px 20px;
-    border: 1px solid #dddddd;
+    padding: 20px 15px;
+    border: 1px solid #888888;
     border-radius: 3px;
-    margin-bottom: 20px;
-   
-   
+    margin-bottom: 20px;  
   }
+
+
   
   .article-title {
     color: #444444;
@@ -62,7 +62,9 @@ body {
   .article-metadata {
     padding-bottom: 1px;
     margin-bottom: 4px;
-    border-bottom: 1px solid #e3e3e3
+    border-bottom: 1px solid #e3e3e3;
+    margin-right: 50px;
+    width: 99%;
   }
   
   .article-metadata a:hover {

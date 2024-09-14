@@ -65,15 +65,26 @@ def logout():
     logout_user()
     return redirect(url_for('home'))
 
+# def save_picture(form_picture):
+#     random_hex = secrets.token_hex(8)
+#     _, f_ext = os.path.splitext(form_picture.filename)
+#     picture_fn = random_hex + f_ext
+#     picture_path = os.path.join(app.root_path, 'static/profile_pics', picture_fn)
+
+#     output_size = (125, 125)
+#     i = Image.open(form_picture)
+#     i.thumbnail(output_size)
+#     i.save(picture_path)
+
+#     return picture_fn
 def save_picture(form_picture):
     random_hex = secrets.token_hex(8)
     _, f_ext = os.path.splitext(form_picture.filename)
     picture_fn = random_hex + f_ext
     picture_path = os.path.join(app.root_path, 'static/profile_pics', picture_fn)
 
-    output_size = (125, 125)
+    # Open and save the image without resizing
     i = Image.open(form_picture)
-    i.thumbnail(output_size)
     i.save(picture_path)
 
     return picture_fn
@@ -106,14 +117,18 @@ def save_media(form_media):
         media_fn = random_hex + f_ext
         media_path = os.path.join(current_app.root_path, 'static', 'media', media_fn)
 
+        # if f_ext.lower() in ['.jpg', '.jpeg', '.png', '.gif', '.mp4', '.mov', '.pdf', '.doc', '.docx', '.xls', '.xlsx']:
+        #     if f_ext.lower() in ['.jpg', '.jpeg', '.png', '.gif']:
+        #         output_size = (125, 125)
+        #         i = Image.open(form_media)
+        #         i.thumbnail(output_size)
+        #         i.save(media_path)
         if f_ext.lower() in ['.jpg', '.jpeg', '.png', '.gif', '.mp4', '.mov', '.pdf', '.doc', '.docx', '.xls', '.xlsx']:
-            if f_ext.lower() in ['.jpg', '.jpeg', '.png', '.gif']:
-                output_size = (125, 125)
-                i = Image.open(form_media)
-                i.thumbnail(output_size)
-                i.save(media_path)
-            else:
-                form_media.save(media_path)
+            # Save the media file as it is without resizing
+            form_media.save(media_path)
+            return media_fn
+        else:
+            form_media.save(media_path)
 
             return media_fn
 
@@ -401,8 +416,14 @@ def submit_selected_cards():
 
             
             new_categories = [Category(name=category_name) for category_name in selected_categories]
-            current_user.categories.extend(new_categories)
+            if current_user.categories is not None:
+                current_user.categories.extend(new_categories)
+            else:
+                # If current_user.categories is None, assign new_categories directly
+                current_user.categories = new_categories
+
             db.session.commit()
+
             return jsonify({"message": "Selected categories updated successfully."})
         except Exception as e:
             # Log the error
@@ -451,13 +472,13 @@ def like(post_id):
 #     flash(f'You are now friends with {friend.username}!', 'success')
 #     return redirect(url_for('friends'))
 
-# @app.route('/remove_friend/<int:friend_id>', methods=['POST'])
-# @login_required
-# def remove_friend(friend_id):
-#     friend = User.query.get_or_404(friend_id)
-#     current_user.remove_friend(friend)
-#     flash(f'You are no longer friends with {friend.username}.', 'success')
-#     return redirect(url_for('friends'))
+@login_required
+@app.route('/remove_friend/<int:friend_id>', methods=['POST'])
+def remove_friend(friend_id):
+    friend = User.query.get_or_404(friend_id)
+    current_user.remove_friend(friend)
+    flash(f'You are no longer friends with {friend.username}.', 'success')
+    return redirect(url_for('friends'))
 
 # @app.route('/is_friends/<int:user_id>')
 # @login_required

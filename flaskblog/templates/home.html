@@ -1,9 +1,20 @@
 {% extends "layout.html" %}
 {% block content %}
+{% block style %}
+<style>
+  .custom-shadow {
+    box-shadow: 5px 7px rgb(65, 1, 1);
+    transition: transform .2s;
+  }
+  .custom-shadow:hover {
+    transform: scale(1.01);
+  }
+</style>
+{% endblock style %}
 <div style="margin-top: 20px;"></div>
 <!-- Add this input field at the top of your template, for example, within a form -->
 <form id="interest-search-form">
-  <input type="text" id="interest-search" placeholder="Search by interests ' \'"  style="background-color: rgb(217, 249, 232)">
+  <input type="text" id="interest-search" placeholder="Search by Interests"  style="border: 1px solid; border-color: rgb(160, 226, 160);">
 </form>
 <div style="margin-top: 20px;"></div>
 <div id="not-found-message" style="display: none; color: red;">Oops! Not Found...</div>
@@ -11,25 +22,30 @@
     
 
 <div style="margin-top: 20px;"></div>
-<article class="media content-section">
+<article class="media content-section custom-shadow mb-5">
   <img class="rounded-circle article-img" src="{{ url_for('static', filename='profile_pics/' + post.author.image_file) }}">
   <div class="media-body">
-    <div class="article-metadata">
+    <div class="article-metadata my-3">
       <a class="mr-2" href="#">{{ post.author.username }}</a>
       <small class="text-muted">{{ post.date_posted.strftime('%Y-%m-%d') }}</small>
       {% if current_user != post.author %}
       {% if current_user not in post.author.friends.all() %}
-          <form action="{{ url_for('add_friend_', user_id=post.author.id) }}" method="post" style="display: inline;">
-              <button class="frnd" type="submit">
-                  <img src="http://127.0.0.1:8080/friend%20jpg.png" alt="buttonpng" height="30px" />
+          <form action="{{ url_for('add_friend_', user_id=post.author.id) }}"  method="post" style="display: inline;" >
+              <button class="frnd bg-white ml-5" style="width: 17px;" type="submit">
+                <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-person-plus mr-5" viewBox="0 0 16 16">
+                  <path d="M6 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0m4 8c0 1-1 1-1 1H1s-1 0-1-1 1-4 6-4 6 3 6 4m-1-.004c-.001-.246-.154-.986-.832-1.664C9.516 10.68 8.289 10 6 10s-3.516.68-4.168 1.332c-.678.678-.83 1.418-.832 1.664z"/>
+                  <path fill-rule="evenodd" d="M13.5 5a.5.5 0 0 1 .5.5V7h1.5a.5.5 0 0 1 0 1H14v1.5a.5.5 0 0 1-1 0V8h-1.5a.5.5 0 0 1 0-1H13V5.5a.5.5 0 0 1 .5-.5"/>
+                </svg>
               </button>
           </form>
       {% endif %}
   {% endif %}
   
     </div>
+    
     <h2><a class="article-title" href="{{ url_for('post', post_id=post.id) }}">{{ post.title }}</a></h2>
-    <p class="article-content">{{ post.content }}</p>
+    <p class="article-content ml-0 mr-5" 
+      style="text-align: justify;">{{ post.content }}</p>
   
     {% if post.author.categories %}
       <ul>
@@ -44,16 +60,16 @@
     <div>
       {% if post.file_path %}
           {% if post.file_path.lower().endswith(('.jpg', '.png', '.jpeg', '.gif')) %}
-              <img src="{{ url_for('static', filename='media/' + post.file_path) }}" height="200px" width="200px" alt="{{ post.title }}">
+              <img src="{{ url_for('static', filename='media/' + post.file_path) }}" height="300px" width="500px" alt="{{ post.title }}">
           {% elif post.file_path.lower().endswith(('.mp4', '.mov')) %}
-          <video controls height="300px" width="300pxs">
+          <video controls height="300px" width="500px">
             <source src="{{ url_for('static', filename='media/' + post.file_path) }}" type="{{ video_mime_type }}">
             Your browser does not support the video tag.
         </video>
         
           {% elif post.file_path.lower().endswith(('.pdf')) %}
               <!-- Display the PDF content -->
-              <embed src="{{ url_for('static', filename='media/' + post.file_path) }}" width="500px" height="300px" type="application/pdf">
+              <embed src="{{ url_for('static', filename='media/' + post.file_path) }}" width="500px" height="400px" type="application/pdf">
           {% else %}
               <!-- Handle unsupported file types or show a default -->
               <p>Unsupported file type</p>
@@ -92,14 +108,14 @@
 <div class="cmtt"
         {% if post.comments|length >0 %}
         <a data-toggle="collapse" href="#comments-{{post.id}}" role="button">
-          <button class="cmt" type="submit" >   
+          <button class="cmt bg-white" type="submit" >   
             <i class="fa-solid fa-comments"></i>
           </button>
         </a>
         <sub style="position: absolute; bottom: 0; right: 0; color: red; padding: 2px 5px; border-radius: 50%; font-size: 16px;">{{ post.comments|length }}</sub>
         {% elif post.comments|length ==0 %}  
         <a data-toggle="collapse" href="#!comments-{{post.id}}" role="button">
-          <button class="cmt" type="submit" >
+          <button class="cmt bg-white" type="submit" >
             <i class="fa-solid fa-comments"></i>
           </button>
         </a>
@@ -196,18 +212,17 @@ editButtons.forEach(button => {
 
         const saveButton = document.createElement('button');
         saveButton.textContent = 'Edit';
-        saveButton.classList.add('save-button', 'blue-button'); // Add blue-button class
-        saveButton.style.marginRight = '10px'; // Add right margin
+        saveButton.classList.add('save-button', 'blue-button'); 
+        saveButton.style.marginRight = '10px'; 
 
         const cancelButton = document.createElement('button');
         cancelButton.textContent = 'Cancel';
-        cancelButton.classList.add('cancel-button', 'red-button'); // Add red-button class
-        cancelButton.style.marginLeft = '10px'; // Add left margin
+        cancelButton.classList.add('cancel-button', 'red-button'); 
+        cancelButton.style.marginLeft = '10px'; 
 
         saveButton.addEventListener('click', function () {
             const newText = editTextarea.value;
 
-            // Update the comment on the server
             fetch(`/edit-comment/${commentId}`, {
                 method: 'POST',
                 headers: {
@@ -222,14 +237,14 @@ editButtons.forEach(button => {
                 return response.json();
             })
             .then(data => {
-                // Handle the server response if needed
+    
                 console.log(data);
             })
             .catch(error => {
                 console.error('Error:', error);
             });
 
-            // Replace the textarea with the updated text
+       
             editTextarea.replaceWith(commentTextElement);
             commentTextElement.textContent = newText;
             saveButton.remove();
@@ -237,13 +252,12 @@ editButtons.forEach(button => {
         });
 
         cancelButton.addEventListener('click', function () {
-            // Restore the original comment text and remove the textarea and buttons
+
             editTextarea.replaceWith(commentTextElement);
             saveButton.remove();
             cancelButton.remove();
         });
 
-        // Insert the "Edit" and "Cancel" buttons after the textarea
         editTextarea.insertAdjacentElement('afterend', saveButton);
         saveButton.insertAdjacentElement('afterend', cancelButton);
     });
@@ -255,11 +269,11 @@ editButtons.forEach(button => {
     interestSearchInput.addEventListener('input', function () {
         const searchValue = this.value.toLowerCase();
 
-        // Get all post elements
+
         const postElements = document.querySelectorAll('.media.content-section');
         let foundMatch = false;
 
-        // Loop through posts and filter based on interests
+     
         postElements.forEach(postElement => {
             const postInterests = postElement.querySelectorAll('li');
             let hasMatch = false;
@@ -272,11 +286,11 @@ editButtons.forEach(button => {
                 }
             });
 
-            // Show or hide posts based on the search result
+         
             postElement.style.display = hasMatch ? 'flex' : 'none';
         });
 
-        // Display a message when no matches are found
+      
         const notFoundMessage = document.getElementById('not-found-message');
         if (foundMatch) {
             notFoundMessage.style.display = 'none';
@@ -285,7 +299,7 @@ editButtons.forEach(button => {
         }
     });
 
-  // Add bounce-on-click class to like buttons
+
 
 });
 </script>

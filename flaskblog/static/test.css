@@ -2,14 +2,14 @@
 
 .cmt {
   position: absolute;
-  right: 0;
+  right: 5px;
   border: 0;
   height: 60px;
 }
 
 .frnd {
-  width: 47px;
-  border: 0px;
-  right: 0px;
   float: right;
+  border: none;
+  margin-right: 0px;
+  margin-left: 10x;
 }

@@ -1,5 +1,5 @@
 from datetime import datetime
-from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
+from itsdangerous.url_safe import URLSafeTimedSerializer as Serializer
 from flaskblog import db, login_manager, app
 from flask_login import UserMixin
 
@@ -47,6 +47,16 @@ class User(db.Model, UserMixin):
             
             db.session.add_all([friendship1, friendship2])
             db.session.commit()
+    
+    def remove_friend(self, user):
+        friendships = Friendship.query.filter(
+            ((Friendship.user_id == self.id) & (Friendship.friend_id == user.id)) |
+            ((Friendship.user_id == user.id) & (Friendship.friend_id == self.id))
+        ).all()
+        for friendship in friendships:
+            db.session.delete(friendship)
+        db.session.commit()
+
     def is_friends_with(self, user):
         return Friendship.query.filter(
             (Friendship.user_id == self.id) & (Friendship.friend_id == user.id)

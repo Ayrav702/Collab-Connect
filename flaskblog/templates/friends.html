@@ -1,10 +1,55 @@
 {% extends "layout.html" %}
 {% block content %}
-<h2>Your Friends</h2>
-<ul>
-{% for friend in friends_list %}
-<li>{{ friend.username }}</li>
-{% endfor %}
-</ul>
-
-{% endblock content %}
+<style>
+    .custom-shadow {
+      box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.3);
+      transition: transform 0.3s, box-shadow 0.3s;
+      border-radius: 15px; /* Rounded edges */
+      position: relative; /* Ensure the icon is positioned relative to the card */
+    }
+    .custom-shadow:hover {
+      transform: scale(1.05);
+      box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.4);
+    }
+    .card-img-top {
+      border-top-left-radius: 15px; /* Match card's rounded edges */
+      border-top-right-radius: 15px; /* Match card's rounded edges */
+      border-radius: 50%; /* Make image circular */
+      width: 150px; /* Set a fixed width */
+      height: 150px; /* Set a fixed height */
+      object-fit: cover; /* Ensure the image covers the area */
+      margin: 20px auto; /* Center the image */
+    }
+    .btn-remove {
+      display: block;
+      margin: 10px auto 0; /* Center the button */
+      background-color: rgb(158, 43, 5);
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      text-align: center;
+      cursor: pointer;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+    .btn-remove:hover {
+      background-color: rgba(255, 0, 0, 0.873);
+    }
+  </style>
+  <h2 style="text-align: center; font-family: Arial, Helvetica, sans-serif;">Friends</h2>
+  <div class="row mt-4">
+    {% for friend in friends_list %}
+    <div class="col-sm-4">
+      <div class="card mb-5 custom-shadow">
+        <img src="{{ url_for('static', filename='profile_pics/' + friend.image_file) }}" class="card-img-top" alt="{{ friend.username }}">
+        <div class="card-body">
+          <h5 class="card-title" style="text-align: center; font-family: Arial, Helvetica, sans-serif;">{{ friend.username }}</h5>
+          <form action="{{ url_for('remove_friend', friend_id=friend.id) }}" method="POST">
+            <button type="submit" class="btn-remove">Remove</button>
+          </form>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  {% endblock content %}

@@ -2,8 +2,8 @@
 {% block content %}
 <form method="POST" action="">
     {{ form.csrf_token }}
-    <fieldset class="form-group">
-        <div class="form-group">
+    <fieldset class="form-group mt-3">
+        <div class="form-group " >
             {{ form.email.label(class="form-control-label") }}
             {% if form.email.errors %}
                 {{ form.email(class="form-control form-control-lg is-invalid") }}

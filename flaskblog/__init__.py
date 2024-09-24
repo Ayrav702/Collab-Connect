@@ -8,7 +8,7 @@ app = Flask(__name__)
 
 app.config['SECRET_KEY'] = 'ZWHluTnEpzKGvfOtTExTGQ'
 csrf_token = 'bQLWTRgM4V1mClWW7YXiGw'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres+psycopg2://default:dbXTNQ8CRg4l@ep-jolly-sea-a46263e4-pooler.us-east-1.aws.neon.tech:5432/verceldb?sslmode=require'
 db = SQLAlchemy(app)
 bcrypt = Bcrypt(app)
 login_manager = LoginManager(app)

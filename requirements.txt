@@ -1,8 +1,10 @@
-  Flask==2.3.2
-  Flask_SQLAlchemy==3.0.5
-  Flask_Bcrypt==1.0.1
-  Flask_Login==0.6.3
-  Flask_Mail==0.9.1
-  Flask_WTF==1.1.1
-  Pillow==10.0.0
-  serverless-wsgi==1.5.2 
+Flask==2.3.2
+Flask_SQLAlchemy==3.0.5
+Flask_Bcrypt==1.0.1
+Flask_Login==0.6.3
+Flask_Mail==0.9.1
+Flask_WTF==1.1.1
+itsdangerous==2.1.2
+regex==2023.9.13
+serverless-wsgi==1.5.2
+Pillow==10.0.0

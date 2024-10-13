@@ -5,4 +5,4 @@
   Flask_Mail==0.9.1
   Flask_WTF==1.1.1
   Pillow==10.0.0
-  serverless-wsgi==2.0.3
+  serverless-wsgi==1.5.2 
